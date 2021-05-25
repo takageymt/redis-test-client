@@ -8,8 +8,7 @@ import (
     "strconv"
 )
 
-func encode(cmd string) string {
-    data := strings.Fields(cmd)
+func encode(data []string) string {
     ret := make([]string, len(data)*2+2)
     ret[0] = "*"+strconv.Itoa(len(data))
     for i, s := range data {
@@ -20,7 +19,7 @@ func encode(cmd string) string {
     return strings.Join(ret, "\r\n")
 }
 
-func Request(conn *net.TCPConn, args string) (string, error) {
+func Request(conn *net.TCPConn, args []string) (string, error) {
     conn.Write([]byte(encode(args)))
     buf := make([]byte, 1024)
     n, _ := conn.Read(buf)
@@ -38,16 +37,16 @@ func main() {
 		log.Fatal("DialTCP", err)
 	}
 
-    reply, err := Request(conn, "PING")
+    reply, err := Request(conn, []string{"PING"})
     fmt.Println(reply)
-    reply, err = Request(conn, "PING Hello")
+    reply, err = Request(conn, []string{"PING Hello"})
     fmt.Println(reply)
-    reply, err = Request(conn, "GET mykey")
+    reply, err = Request(conn, []string{"GET mykey"})
     fmt.Println(reply)
-    reply, err = Request(conn, "SET mykey value")
+    reply, err = Request(conn, []string{"SET mykey value"})
     fmt.Println(reply)
-    reply, err = Request(conn, "GET mykey")
+    reply, err = Request(conn, []string{"GET mykey"})
     fmt.Println(reply)
-    reply, err = Request(conn, "DEL mykey")
+    reply, err = Request(conn, []string{"DEL mykey"})
     fmt.Println(reply)
 }
