@@ -26,39 +26,7 @@ func Request(conn *net.TCPConn, args string) (string, error) {
     n, _ := conn.Read(buf)
     return string(buf[:n]), nil
 }
-/*
-func Ping(conn *net.TCPConn, arg interface{}) (string, error) {
-    pingArgs := []string{"PING"}
-    if s, ok := arg.(string); ok {
-        pingArgs = append(pingArgs, s)
-    }
-    return Request(conn, pingArgs)
-}
 
-func Get(conn *net.TCPConn, key string) (string, error) {
-    getArgs := []string{"GET", key}
-    return Request(conn, getArgs)
-}
-
-func Set(conn *net.TCPConn, key string, value string, option interface{}) (string, error) {
-    setArgs := []string{"SET", key, value}
-    if s, ok := option.(string); ok {
-        setArgs = append(setArgs, s)
-    }
-    return Request(conn, setArgs)
-}
-
-func Del(conn *net.TCPConn, keys []string) (string, error) {
-    delArgs := []string{"DEL"}
-    delArgs = append(delArgs, keys...)
-    return Request(conn, delArgs)
-}
-
-func Incrby(conn *net.TCPConn, key string, value string) (string, error) {
-    incrbyArgs := []string{"INCRBY", key, value}
-    return Request(conn, incrbyArgs)
-}
-*/
 func main() {
 	tcpAddr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:6379")
 	if err != nil {
